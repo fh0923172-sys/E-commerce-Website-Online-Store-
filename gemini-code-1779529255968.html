@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>NAVELY — Modern Luxury Fashion</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Inter:wght@300;400;450;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #F9F7F4;
+    --bg-elev: #FFFFFF;
+    --ink: #0A0A0A;
+    --ink-2: #2B2B2B;
+    --ink-3: #5A5A5A;
+    --line: #E8E2D9;
+    --gold: #C9A84C;
+    --gold-ink: #8A6E25;
+    --success: #1F5F4D;
+    --danger: #9A3B3B;
+    --radius-sm: 8px;
+    --radius: 14px;
+    --radius-lg: 22px;
+    --shadow-1: 0 1px 2px rgba(10,10,10,.04), 0 8px 24px rgba(10,10,10,.04);
+    --shadow-2: 0 2px 4px rgba(10,10,10,.04), 0 16px 40px rgba(10,10,10,.08);
+    --transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+  
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: 'Inter', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+    line-height: 1.5;
+  }
+  
+  h1, h2, h3, h4, .serif {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 400;
+  }
+  
+  a {
+    color: inherit;
+    text-decoration: none;
+    transition: var(--transition);
+  }
+  
+  button, input, select, textarea {
+    font-family: inherit;
+    background: none;
+    border: none;
+    outline: none;
+  }
+  
+  img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    object-fit: cover;
+  }
+  
+  /* Utility Classes */
+  .container {
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: 0 40px;
+  }
+  @media (max-width: 768px) {
+    .container { padding: 0 20px; }
+  }
+  
+  /* Header / Nav */
+  header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(249, 247, 244, 0.85);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--line);
+    transition: var(--transition);
+  }
+  
+  .nav-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 90px;
+  }
+  
+  .nav-left, .nav-right {
+    display: flex;
+    align-items: center;
+    gap: 32px;
+    flex: 1;
+  }
+  
+  .nav-right { justify-content: flex-end; }
+  
+  .nav-links {
+    display: flex;
+    gap: 28px;
+  }
+  
+  .nav-links a {
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-weight: 450;
+    color: var(--ink-2);
+    position: relative;
+  }
+  
+  .nav-links a::after {
+    content: '';
+    position: absolute;
+    bottom: -4px;
+    left: 0;
+    width: 100%;
+    height: 1px;
+    background: var(--ink);
+    transform: scaleX(0);
+    transform-origin: right;
+    transition: transform 0.35s ease;
+  }
+  
+  .nav-links a:hover::after, .nav-links a.active::after {
+    transform: scaleX(1);
+    transform-origin: left;
+  }
+  
+  .logo {
+    font-size: 32px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    font-weight: 500;
+    text-align: center;
+  }
+  
+  .icon-btn {
+    cursor: pointer;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    transition: var(--transition);
+  }
+  
+  .icon-btn:hover {
+    background: rgba(0,0,0,0.03);
+  }
+  
+  .icon-btn svg {
+    width: 20px;
+    height: 20px;
+    stroke-width: 1.25;
+  }
+  
+  .badge {
+    position: absolute;
+    top: 4px;
+    right: 4px;
+    background: var(--ink);
+    color: #fff;
+    font-size: 9px;
+    font-weight: 600;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .menu-btn { display: none; }
+  
+  @media (max-width: 1024px) {
+    .nav-links { display: none; }
+    .menu-btn { display: flex; }
+    .nav-left { flex: initial; }
+  }
+  
+  /* App View Layout */
+  main {
+    min-height: calc(100vh - 90px);
+  }
+  
+  /* Hero Section */
+  .hero {
+    position: relative;
+    height: calc(100vh - 90px);
+    min-height: 600px;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+    background: #EAE5E0;
+  }
+  
+  .hero-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to right, rgba(249,247,244,0.9) 30%, rgba(249,247,244,0) 70%), url('https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=1600&q=80') center/cover no-repeat;
+  }
+  
+  .hero-content {
+    position: relative;
+    z-index: 10;
+    max-width: 620px;
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 1.2s ease, transform 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  
+  .hero-content.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  
+  .hero-tag {
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: var(--ink-3);
+    margin-bottom: 16px;
+    display: inline-block;
+    font-weight: 500;
+  }
+  
+  .hero h1 {
+    font-size: clamp(48px, 6vw, 84px);
+    line-height: 1.05;
+    margin-bottom: 28px;
+    letter-spacing: -0.02em;
+  }
+  
+  .hero p {
+    font-size: 16px;
+    color: var(--ink-2);
+    margin-bottom: 40px;
+    max-width: 540px;
+    line-height: 1.6;
+    font-weight: 300;
+  }
+  
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    background: var(--ink);
+    color: #fff;
+    padding: 18px 36px;
+    font-size: 13px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    transition: var(--transition);
+    border: 1px solid var(--ink);
+  }
+  
+  .btn:hover {
+    background: transparent;
+    color: var(--ink);
+  }
+  
+  .btn-secondary {
+    background: transparent;
+    color: var(--ink);
+    border: 1px solid var(--line);
+  }
+  
+  .btn-secondary:hover {
+    background: rgba(0,0,0,0.02);
+    border-color: var(--ink);
+  }
+</style>
+</head>
+<body>
+
+  <header>
+    <div class="container nav-container">
+      <div class="nav-left">
+        <button class="icon-btn menu-btn" id="menuBtn">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+        </button>
+        <nav class="nav-links">
+          <a href="#home" class="active">Home</a>
+          <a href="#shop">Shop</a>
+          <a href="#about">Our Story</a>
+        </nav>
+      </div>
+      <div class="logo"><a href="#home">Navely</a></div>
+      <div class="nav-right">
+        <div style="position:relative; width:220px;" class="search-desktop">
+          <input type="text" id="globalSearch" placeholder="Search collection..." style="width:100%; padding:10px 14px 10px 36px; border:1px solid var(--line); border-radius:30px; font-size:13px; background:var(--bg-elev);">
+          <svg style="position:absolute; left:12px; top:11px; width:16px; height:16px; color:var(--ink-3);" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+        </div>
+        <a href="#account" class="icon-btn">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
+        </a>
+        <a href="#wishlist" class="icon-btn">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/></svg>
+          <span class="badge" id="wishlistBadge">0</span>
+        </a>
+        <a href="#cart" class="icon-btn">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/></svg>
+          <span class="badge" id="cartBadge">0</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <main id="app">
+  </main>
+
+<script>
+/* Router Fix Block for GitHub Pages */
+function router() {
+  if (!location.hash && !location.pathname.endsWith('/')) {
+    location.hash = '#home';
+  }
+  
+  const hash = location.hash || '#home';
+  const app = document.getElementById('app');
+  
+  document.querySelectorAll('.nav-links a').forEach(a => {
+    if(a.getAttribute('href') === hash) a.classList.add('active');
+    else a.classList.remove('active');
+  });
+
+  if (hash === '#home' || hash === '') {
+    app.innerHTML = `
+      <section class="hero">
+        <div class="hero-bg"></div>
+        <div class="container">
+          <div class="hero-content" id="heroContent">
+            <span class="hero-tag">The Autumn Collection</span>
+            <h1>Timeless Elegance <br>Refined Luxury</h1>
+            <p>Discover meticulously crafted garments tailored for modern sophistication. Designed to elevate your daily style with quiet luxury.</p>
+            <div style="display:flex; gap:16px;">
+              <a href="#shop" class="btn">Explore Shop</a>
+              <a href="#about" class="btn btn-secondary">Our Legacy</a>
+            </div>
+          </div>
+        </div>
+      </section>
+    `;
+    setTimeout(() => {
+      document.querySelector('.hero-content')?.classList.add('visible');
+    }, 100);
+  } else if (hash === '#shop') {
+    app.innerHTML = `
+      <div class="container" style="padding: 60px 40px;">
+        <h2 style="font-size:42px; margin-bottom:40px; text-align:center;">Our Full Collection</h2>
+        <p style="text-align:center; color:var(--ink-3);">Premium luxury items tailored for your lifestyle.</p>
+      </div>
+    `;
+  } else if (hash === '#about') {
+    app.innerHTML = `
+      <div class="container" style="padding: 80px 40px; max-width:800px; text-align:center;">
+        <h2 style="font-size:48px; margin-bottom:24px;">Our Legacy</h2>
+        <p style="font-size:18px; line-height:1.8; color:var(--ink-2); font-weight:300;">Navely was founded on the principles of exquisite craftsmanship, sustainable high-fashion luxury, and timeless design aesthetics. We create pieces that tell a story of beauty and confidence.</p>
+      </div>
+    `;
+  } else {
+    app.innerHTML = `
+      <div class="container" style="padding: 100px 40px; text-align:center;">
+        <h2>Page Not Found</h2>
+        <p><a href="#home" style="text-decoration:underline; color:var(--gold);">Return to Home</a></p>
+      </div>
+    `;
+  }
+}
+
+function refreshBadges() {
+  document.getElementById('wishlistBadge').innerText = '0';
+  document.getElementById('cartBadge').innerText = '0';
+}
+
+window.addEventListener('hashchange', router);
+window.addEventListener('load', () => {
+  refreshBadges();
+  router();
+});
+</script>
+</body>
+</html>
